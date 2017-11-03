@@ -32,16 +32,15 @@ public class Client : MonoBehaviour {
 		}
 		SendData(Encoding.ASCII.GetBytes("send_points\0"));
 		_clientSocket.BeginReceive(_receiveBuffer, 0, _receiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
-		_timeToGo = Time.fixedTime + 1.0f;
+		_timeToGo = Time.fixedTime + 0.1f;
 	}
 
-	void OnApplicationQuit()
+	void OnDestroy()
 	{
 		if (_clientSocket.Connected)
 			_clientSocket.Disconnect(true);
 		_clientSocket.Close();
 	}
-
 
 	private void SetupClient(IAsyncResult AR)
 	{
@@ -82,10 +81,10 @@ public class Client : MonoBehaviour {
 			if (coordStrings[2] > 80 && coordStrings[2] < 300)
 			{
 				pointsDictionary[nameOfPoint] = new Vector3(coordStrings[0], coordStrings[1], coordStrings[2]);
-				foreach (KeyValuePair<string, Vector3> pair in pointsDictionary)
-				{
-					Debug.Log(pair.Key + ": Values: " + pair.Value);
-				}
+//				foreach (KeyValuePair<string, Vector3> pair in pointsDictionary)
+//				{
+//					Debug.Log(pair.Key + ": Values: " + pair.Value);
+//				}
 			}
 		}
 
